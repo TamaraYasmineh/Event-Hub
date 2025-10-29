@@ -47,3 +47,8 @@ Route::middleware(['auth:sanctum', 'role:superadmin|admin'])->group(function () 
 
     Route::post('/approveEvent/{id}', [SuperAdminController::class, 'approveEvent']);
 });
+
+Route::get('/search/{keyword}', [EventController::class, 'search'])->name('events.search');
+Route::get('/filterByType/{type}', [EventController::class, 'filterByType'])->name('events.type');
+Route::get('/filterByAddress/{address}', [EventController::class, 'filterByAddress'])->name('events.address');
+Route::get('/filterByDate/{date}', [EventController::class, 'filterByDate'])->name('events.date');

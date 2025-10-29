@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Validated;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 
 class EventController extends Controller
@@ -167,6 +168,75 @@ class EventController extends Controller
         return response()->json([
             'message' => 'Event has been delayed successfully',
             'event' => $event,
+        ]);
+    }
+
+
+        public function search($keyword)
+    {
+
+        if (empty($keyword)) {
+            return response()->json([
+                'events' => []
+            ], 200);
+        }
+
+        $columns = Schema::getColumnListing('events');
+
+        $events = Event::where(function ($query) use ($columns, $keyword) {
+            foreach ($columns as $column) {
+                if (!in_array($column, ['id', 'user_id', 'created_at', 'updated_at'])) {
+                    $query->orWhere($column, 'like', "%{$keyword}%");
+                }
+            }
+        })->get();
+
+        return response()->json([
+            'events' => $events
+        ], 200);
+    }
+
+
+
+    public function filterByType($type)
+    {
+        $events = Event::where('type', 'like', "%$type%")->get();;
+
+        return response()->json([
+            'events' => $events
+        ]);
+        // return view('events.index', compact('events'));
+    }
+
+    public function filterByAddress($address)
+    {
+        // $address = $request->input('address');
+
+        $events = Event::where('address', 'like', "%$address%")->get();
+        return response()->json([
+            'events' => $events
+        ]);
+        // return view('events.index', compact('events'));
+    }
+
+    public function filterByDate($date)
+    {
+        $filteredEvents = [];
+        $target = Carbon::createFromFormat('d-m-Y', $date);
+
+        $events = Event::all();
+
+        foreach ($events as $event) {
+            $start = Carbon::createFromFormat('d-m-Y', $event->startDate);
+            $end   = Carbon::createFromFormat('d-m-Y', $event->endDate);
+
+            if ($target->between($start, $end)) {
+                $filteredEvents[] = $event;
+            }
+        }
+
+        return response()->json([
+            'events' => $filteredEvents
         ]);
     }
 }
