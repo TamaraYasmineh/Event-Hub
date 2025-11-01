@@ -196,4 +196,25 @@ class SuperAdminController extends Controller
 
         return response()->json($events);
     }
+    public function showUsers()
+    {
+        $users = User::all()->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'username' => $user->username,
+                'email' => $user->email,
+                'role' => $user->getRoleNames()->first() ?? 'no role',
+            ];
+        });
+
+        if ($users->isEmpty()) {
+            return response()->json([
+                'message' => 'No users found'
+            ], 200);
+        }
+
+        return response()->json([
+            'users' => $users
+        ], 200);
+    }
 }

@@ -32,7 +32,7 @@ Route::post('addEvent', [EventController::class, 'addEvent'])->middleware('auth:
 
 
 Route::middleware(['auth:sanctum', 'role:superadmin'])->group(function () {
-
+    Route::get('/showUsers', [SuperAdminController::class, 'showUsers']);
     Route::get('/upgradeUser/{id}', [SuperAdminController::class, 'upgradeUser']);
     Route::get('/downgradeUser/{id}', [SuperAdminController::class, 'downgradeUser']);
 });
