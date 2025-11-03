@@ -239,4 +239,6 @@ class EventController extends Controller
             'events' => $filteredEvents
         ]);
     }
+
+ 
 }

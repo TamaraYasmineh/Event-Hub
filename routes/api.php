@@ -52,3 +52,5 @@ Route::get('/search/{keyword}', [EventController::class, 'search'])->name('event
 Route::get('/filterByType/{type}', [EventController::class, 'filterByType'])->name('events.type');
 Route::get('/filterByAddress/{address}', [EventController::class, 'filterByAddress'])->name('events.address');
 Route::get('/filterByDate/{date}', [EventController::class, 'filterByDate'])->name('events.date');
+
+Route::get('/myEvents', [AuthController::class, 'myEvents'])->middleware('auth:sanctum');
