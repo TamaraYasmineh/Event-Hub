@@ -31,7 +31,7 @@ class EventController extends Controller
         ]);
         $imagePath = $request->file('image')->store('eventImage', 'public');
 
-        $imageFullPath = asset('storage/' . $imagePath);
+        // $imageFullPath = asset('storage/' . $imagePath);
 
         $user = Auth::user();
         if ($user->hasRole('superadmin')) {
@@ -45,7 +45,7 @@ class EventController extends Controller
             $validated['approvalLevel'] = 'admin' || 'superadmin';
         }
         $validated['eventState'] = 'active';
-        $validated['image'] = $imageFullPath;
+        $validated['image'] = $imagePath;
         $validated['user_id'] = Auth::id();
         $validated['username'] = Auth::user()->username;
         $event = Event::create($validated);
@@ -240,5 +240,5 @@ class EventController extends Controller
         ]);
     }
 
- 
+
 }

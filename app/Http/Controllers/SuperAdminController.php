@@ -79,7 +79,7 @@ class SuperAdminController extends Controller
     {
         $today = Carbon::now()->startOfDay();
 
-        $events = Event::select('id', 'title', 'description', 'startDate', 'endDate', 'startClock', 'endClock', 'image', 'type', 'address', 'link')
+        $events = Event::select('id', 'title', 'description', 'startDate', 'endDate', 'startClock', 'endClock', 'image', 'type', 'address', 'link','eventState')
             ->where('status', 'accept')
             ->orderBy('startDate', 'asc')
             ->get()
@@ -120,7 +120,7 @@ class SuperAdminController extends Controller
     {
         $today = Carbon::now()->startOfDay();
 
-        $events = Event::select('id', 'title', 'description', 'startDate', 'endDate', 'startClock', 'endClock', 'image', 'type', 'address', 'link')
+        $events = Event::select('id', 'title', 'description', 'startDate', 'endDate', 'startClock', 'endClock', 'image', 'type', 'address', 'link','eventState')
             ->where('status', 'pending')
             ->orderBy('startDate', 'asc')
             ->get()
@@ -160,7 +160,7 @@ class SuperAdminController extends Controller
     {
         $today = Carbon::now()->startOfDay();
 
-        $events = Event::select('id', 'title', 'description', 'startDate', 'endDate', 'startClock', 'endClock', 'image', 'type', 'address', 'link')
+        $events = Event::select('id', 'title', 'description', 'startDate', 'endDate', 'startClock', 'endClock', 'image', 'type', 'address', 'link','eventState')
             ->where('status', 'reject')
             ->orderBy('startDate', 'asc')
             ->get()

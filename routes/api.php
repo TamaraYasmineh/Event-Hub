@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AddsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\SuperAdminController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 
 
@@ -19,8 +20,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-Route::post('/cancelEvent/{id}',[EventController::class,'cancelEvent'])->middleware('auth:sanctum');
-Route::post('/postponeEvent/{id}',[EventController::class,'postponeEvent'])->middleware('auth:sanctum');
+Route::post('/cancelEvent/{id}', [EventController::class, 'cancelEvent'])->middleware('auth:sanctum');
+Route::post('/postponeEvent/{id}', [EventController::class, 'postponeEvent'])->middleware('auth:sanctum');
 
 Route::get('/showUpcommingEvent', [EventController::class, 'showUpcommingEvent']);
 
@@ -46,6 +47,12 @@ Route::middleware(['auth:sanctum', 'role:superadmin|admin'])->group(function () 
     Route::get('/showAllEventRejected', [SuperAdminController::class, 'showAllEventRejected']);
 
     Route::post('/approveEvent/{id}', [SuperAdminController::class, 'approveEvent']);
+
+    Route::post('/createAdds', [AddsController::class, 'createAdds']);
+    Route::get('/clickUnActivatedAdds/{id}', [AddsController::class, 'clickUnActivatedAdds']);
+    Route::get('/clickActivatedAdds/{id}', [AddsController::class, 'clickActivatedAdds']);
+    Route::get('/showAddsForAdmins', [AddsController::class, 'showAddsForAdmins']);
+    Route::delete('/destroy/{id}', [AddsController::class, 'destroy']);
 });
 
 Route::get('/search/{keyword}', [EventController::class, 'search'])->name('events.search');
